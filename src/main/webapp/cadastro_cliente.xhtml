@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+		<h1>Relação de Clientes</h1>
+
+		<div class="card">
+		
+			<h:form id="dialogs">
+				<p:growl id="mensagens" />
+				<p:dialog header="Novo Cliente" showEffect="fade" modal="true"
+					widgetVar="clienteDialog" responsive="true">
+					<p:outputPanel id="cliente-conteudo-dialog" class="ui-fluid">
+						<p:outputPanel rendered="#{not empty clienteController.cliente}">
+							<div class="field">
+								<p:outputLabel for="nome">Cliente</p:outputLabel>
+								<p:inputText id="nome" value="#{clienteController.cliente.nome}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="cnpj">CNPJ</p:outputLabel>
+								<p:inputText id="cnpj" value="#{clienteController.cliente.cnpj}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="cep">CEP</p:outputLabel>
+								<p:inputText id="cep" value="#{clienteController.cliente.cep}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="estado">Estado</p:outputLabel>
+								<p:inputText id="estado"
+									value="#{clienteController.cliente.estado}" required="true" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+
+					<f:facet name="footer">
+						<p:commandButton value="Salvar" icon="pi pi-check"
+							actionListener="#{clienteController.salvar}"
+							update="cliente-conteudo-dialog dialogs:mensagens"
+							process="cliente-conteudo-dialog @this" />
+						<p:commandButton value="Cancelar" icon="pi pi-times"
+							onclick="PF('clienteDialog').hide()" class="ui-button-secondary"
+							type="button" />
+					</f:facet>
+
+				</p:dialog>
+				<p:confirmDialog widgetVar="removerClienteDialog" showEffect="fade"
+					width="300" message="Desejar remover este cliente?"
+					header="Confirm" severity="warn">
+					<p:commandButton value="Sim" icon="pi pi-check"
+						actionListener="#{clienteController.remover}" process="@this"
+						oncomplete="PF('removerClienteDialog').hide()" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('removerClienteDialog').hide()" />
+				</p:confirmDialog>
+			</h:form>
+			
+			
+			
+			<h:form id="alterardialogs">
+				<p:growl id="alterarmensagens" />
+				<p:dialog header="Alterar Cliente" showEffect="fade" modal="true"
+					widgetVar="alterarclienteDialog" responsive="true">
+					<p:outputPanel id="alterarcliente-conteudo-dialog" class="ui-fluid">
+						<p:outputPanel rendered="#{not empty clienteController.cliente}">
+							<div class="field">
+								<p:outputLabel for="nome">Cliente</p:outputLabel>
+								<p:inputText id="nome" value="#{clienteController.cliente.nome}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="cnpj">CNPJ</p:outputLabel>
+								<p:inputText id="cnpj" value="#{clienteController.cliente.cnpj}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="cep">CEP</p:outputLabel>
+								<p:inputText id="cep" value="#{clienteController.cliente.cep}"
+									required="true" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="estado">Estado</p:outputLabel>
+								<p:inputText id="estado"
+									value="#{clienteController.cliente.estado}" required="true" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+
+					<f:facet name="footer">
+						<p:commandButton value="Salvar" icon="pi pi-check"
+							onclick="PF('alterarclienteDialog').hide()"
+							actionListener="#{clienteController.alterar()}"
+							update="alterarcliente-conteudo-dialog alterardialogs:alterarmensagens"
+							process="alterarcliente-conteudo-dialog @this"  />
+						<p:commandButton value="Cancelar" icon="pi pi-times"
+							onclick="PF('alterarclienteDialog').hide()" class="ui-button-secondary"
+							type="button" />
+					</f:facet>
+
+				</p:dialog>
+				<p:confirmDialog widgetVar="removerClienteDialog" showEffect="fade"
+					width="300" message="Desejar remover este cliente?"
+					header="Confirm" severity="warn">
+					<p:commandButton value="Sim" icon="pi pi-check"
+						actionListener="#{clienteController.remover}" process="@this"
+						oncomplete="PF('removerClienteDialog').hide()" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('removerClienteDialog').hide()" />
+				</p:confirmDialog>
+			</h:form>
+			
+
+		
+
+
+			<h:form id="form">
+				<p:growl id="mensagens" showDetail="true" />
+				<!-- botoes -->
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="Novo" icon="pi pi-plus"
+							actionListener="#{clienteController.novoCadastro()}"
+							update=":dialogs:cliente-conteudo-dialog"
+							oncomplete="PF('clienteDialog').show()"
+							styleClass="ui-button-success" style="margin-right: .5rem">
+							<p:resetInput target=":dialogs:cliente-conteudo-dialog" />
+						</p:commandButton>
+
+					
+					</p:toolbarGroup>
+				</p:toolbar>
+
+			</h:form>
+
+
+			<h:form id="tabela">
+				<p:dataTable id="cliente" var="cliente"
+					value="#{clienteController.clientes}">
+					<f:facet name="header">
+		                Cliente
+		            </f:facet>
+
+					<p:column headerText="Cliente">
+						<h:outputText value="#{cliente.cnpj}" />
+					</p:column>
+					<p:column headerText="Name">
+						<h:outputText value="#{cliente.nome}" />
+					</p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{cliente.estado}" />
+					</p:column>
+					<p:column headerText="Cep">
+						<h:outputText value="#{cliente.cep}" />
+					</p:column>
+					<p:column>
+					
+					   <p:commandButton icon="pi pi-pencil" update=":alterardialogs:alterarcliente-conteudo-dialog" 
+	                    oncomplete="PF('alterarclienteDialog').show()" action="#{clienteController.alterar()}"
+	                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+	                    <f:setPropertyActionListener value="#{cliente}" target="#{clienteController.cliente}" />
+	                    <p:resetInput target=":alterardialogs:alterarcliente-conteudo-dialog" />
+	                </p:commandButton>
+					
+					<p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+	                                 process="@this" oncomplete="PF('removerClienteDialog').show()">
+	                    <f:setPropertyActionListener value="#{cliente}" target="#{clienteController.cliente}" />
+	                </p:commandButton>
+	                
+	                </p:column>
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+

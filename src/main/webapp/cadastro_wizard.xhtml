@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    
+<h:head>
+    <title>cliente</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</h:head>
+
+<body>
+	
+	<h:form>
+		<div class="card2">
+	        <p:growl id="growl" sticky="true" showDetail="true"/>
+	
+	        <p:wizard widgetVar="wiz" flowListener="#{orcamentoWizard.onFlowProcess}">
+	            <p:tab id="personal" title="Dados cadastrais">
+	                <p:panel header="Personal Details">
+	                    <p:messages/>
+	                    <h:panelGrid columns="2" columnClasses="label, value">
+	                        <h:outputText value="Id: *"/>
+	                        <p:inputText value="#{orcamentoWizard.orcamento.id}" required="true" label="id"/>
+	
+	                        <h:outputText value="Prioridade: *"/>
+	                        <p:inputText value="#{orcamentoWizard.orcamento.prioridade}" required="true" label="Prioridade"/>
+	
+	                        <h:outputText value="Skip to last: "/>
+	                        <h:selectBooleanCheckbox value="#{orcamentoWizard.skip}"/>
+	                    </h:panelGrid>
+	                </p:panel>
+	            </p:tab>
+	
+	            <p:tab id="address" title="Address">
+	                <p:panel header="Address Details">
+	                    <p:messages/>
+	                    <h:panelGrid columns="2" columnClasses="label, value">
+	                        <h:outputText value="Valor serviços: "/>
+	                        <p:inputText value="#{orcamentoWizard.orcamento.val_s}"/>
+	
+	                        <h:outputText value="Valor itens: "/>
+	                        <p:inputText value="#{orcamentoWizard.orcamento.val_i}"/>
+	
+	                        <h:outputText value="Valor funcionarios: "/>
+	                        <p:inputText value="#{orcamentoWizard.orcamento.val_f}"/>
+	
+	                        <h:outputText value="Skip to last: "/>
+	                        <h:selectBooleanCheckbox value="#{orcamentoWizard.skip}"/>
+	                    </h:panelGrid>
+	                </p:panel>
+	            </p:tab>
+	
+	            <p:tab id="confirm" title="Confirmation">
+	                <p:panel header="Confirmation">
+	                    <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+	                        <h:panelGrid columns="2" columnClasses="label, value">
+	                            <h:outputText value="Id: "/>
+	                            <h:outputText value="#{orcamentoWizard.orcamento.id}" styleClass="outputLabel"/>
+	
+	                            <h:outputText value="Prioridade: "/>
+	                            <h:outputText value="#{orcamentoWizard.orcamento.prioridade}" styleClass="outputLabel"/>
+	
+	                        </h:panelGrid>
+	
+	                        <h:panelGrid columns="2" columnClasses="label, value">
+	                            <h:outputText value="Valor serviços: "/>
+	                            <h:outputText value="#{orcamentoWizard.orcamento.val_s}" styleClass="outputLabel"/>
+	
+	                            <h:outputText value="Valor itens: "/>
+	                            <h:outputText value="#{orcamentoWizard.orcamento.val_i}" styleClass="outputLabel"/>
+	
+	                            <h:outputText value="Valor funcionarios: "/>
+	                            <h:outputText value="#{orcamentoWizard.orcamento.val_f}" styleClass="outputLabel"/>
+	
+	                            <h:outputText/>
+	                            <h:outputText/>
+	                        </h:panelGrid>
+	                    </h:panelGrid>
+	
+	                    <p:commandButton value="Submit" action="#{orcamentoWizard.save}" update="growl" process="@this"/>
+	                </p:panel>
+	            </p:tab>
+	        </p:wizard>
+	 	</div>
+	</h:form>
+
+ </body>
+ </html>
